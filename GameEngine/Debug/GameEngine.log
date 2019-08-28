@@ -1,0 +1,5 @@
+﻿  ExampleGame.cpp
+C:\Users\bennett253\Documents\GitHub\CompGraphicsEngine\GameEngine\ExampleGame.cpp(199,26): warning C4305:  '+=': truncation from 'double' to 'float'
+C:\Users\bennett253\Documents\GitHub\CompGraphicsEngine\GameEngine\ExampleGame.cpp(213,34): warning C4100:  'dt': unreferenced formal parameter
+C:\Users\bennett253\Documents\GitHub\CompGraphicsEngine\GameEngine\ExampleGame.cpp(220,32): warning C4100:  'dt': unreferenced formal parameter
+  GameEngine.vcxproj -> C:\Users\bennett253\Documents\GitHub\CompGraphicsEngine\Debug\GameEngine.exe
