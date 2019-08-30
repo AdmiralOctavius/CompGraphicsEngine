@@ -1,4 +1,4 @@
-#pragma region Includes and Namespaces
+	#pragma region Includes and Namespaces
 #include <string>
 
 #include "ExampleGame.h"
@@ -214,6 +214,20 @@ void ExampleGame::GetInput(float dt)//dt = deltaTime
 {
 	if (keyboard->ButtonDown(VK_ESCAPE))
 		PostQuitMessage(0); 
+
+	if (keyboard->ButtonDown('W'))
+		opaqueObjects.back().position.z += 0.1f;
+
+	if (keyboard->ButtonDown('S'))
+		opaqueObjects.back().position.z -= 0.1f;
+
+
+	if (keyboard->ButtonDown('A'))
+		opaqueObjects.back().position.x -= 0.1f;
+
+
+	if (keyboard->ButtonDown('D'))
+		opaqueObjects.back().position.x += 0.1f;
 } 
 
 //Update is for movement, AI, physics, most gameplay things.
