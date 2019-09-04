@@ -212,22 +212,64 @@ bool ExampleGame::Init()
 //GetInput is called in BaseGame::Run before Update() and Draw().
 void ExampleGame::GetInput(float dt)//dt = deltaTime
 {
+
+	float kirbySpeed = 6;
+	float cameraSpeed = 5;
+	if (keyboard->ButtonDown(VK_SHIFT)) {
+		cameraSpeed = 15;
+	}
+
 	if (keyboard->ButtonDown(VK_ESCAPE))
 		PostQuitMessage(0); 
 
+	if (keyboard->ButtonDown(VK_UP))
+		opaqueObjects.back().position.z += kirbySpeed * dt;
+
+	if (keyboard->ButtonDown(VK_DOWN))
+		opaqueObjects.back().position.z -= kirbySpeed * dt;
+
+
+	if (keyboard->ButtonDown(VK_LEFT))
+		opaqueObjects.back().position.x -= kirbySpeed * dt;
+
+
+	if (keyboard->ButtonDown(VK_RIGHT))
+		opaqueObjects.back().position.x += kirbySpeed * dt;
+
 	if (keyboard->ButtonDown('W'))
-		opaqueObjects.back().position.z += 0.1f;
+		camera.MoveForward(cameraSpeed * dt);
 
 	if (keyboard->ButtonDown('S'))
-		opaqueObjects.back().position.z -= 0.1f;
-
-
-	if (keyboard->ButtonDown('A'))
-		opaqueObjects.back().position.x -= 0.1f;
-
+		camera.MoveForward(-1 * (cameraSpeed * dt));
 
 	if (keyboard->ButtonDown('D'))
-		opaqueObjects.back().position.x += 0.1f;
+		camera.Strafe(cameraSpeed * dt);
+
+	if (keyboard->ButtonDown('A'))
+		camera.Strafe(-1 *(cameraSpeed * dt));
+
+	if (keyboard->ButtonDown(VK_SPACE))
+		camera.position.y += cameraSpeed * dt;
+	if (keyboard->ButtonDown(VK_LCONTROL))
+		camera.position.y += -1*(cameraSpeed * dt);
+
+	if (!mouse->IsVisible()) {
+
+
+		//camera.rotation.x += mouse->DX();
+		camera.rotation.x += XMConvertToRadians(mouse->DX());
+		//camera.rotation.y += mouse->DY();
+		camera.rotation.y += XMConvertToRadians(mouse->DY());
+	}
+
+	if (keyboard->ButtonPressed(VK_TAB)) {
+		if (mouse->IsVisible()) {
+			mouse->HideAndLockMouse(gameWindow);
+		}
+		else {
+			mouse->ShowAndUnlockMouse(gameWindow);
+		}
+	}
 } 
 
 //Update is for movement, AI, physics, most gameplay things.
