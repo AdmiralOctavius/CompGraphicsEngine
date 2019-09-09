@@ -43,9 +43,12 @@ private:
 	unordered_map<string, ID3D11PixelShader*> pShaderMap;
 	unordered_map<string, Material> materialMap;
 	unordered_map<string, BaseMesh*> meshMap;
-	
+	Mesh<VertexPositionColor> triangleMesh;
+	GameObject triangle;
+
 	//Render States and Objects
 	ID3D11RasterizerState *rasterizerState = nullptr;
+	ID3D11RasterizerState *wireframeState= nullptr;
 	ID3D11BlendState *standardBlend = nullptr, *noBlend = nullptr;
 	ID3D11DepthStencilState *standardDepthState = nullptr, *skyDepthState = nullptr;
 	SimpleConstantBuffer gameSimpleCBuffer;//constant buffer FOR Game

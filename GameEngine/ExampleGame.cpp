@@ -50,6 +50,7 @@ bool ExampleGame::Init()
 
 	//Create states and buffers.
 	RenderManager::CreateRasterizerState(rasterizerState, device, D3D11_FILL_SOLID, D3D11_CULL_BACK);
+	RenderManager::CreateRasterizerState(wireframeState, device, D3D11_FILL_WIREFRAME, D3D11_CULL_BACK);
 	RenderManager::CreateDepthStencilState(standardDepthState, device);
 	RenderManager::CreateDepthStencilState(skyDepthState, device, true, D3D11_COMPARISON_LESS_EQUAL);
 	RenderManager::CreateBlendState(noBlend, device, false);
@@ -88,7 +89,7 @@ bool ExampleGame::Init()
 	Material::Init();//Just allocates memory for textures and samplers. Mostly for optimization; you could do it each time you apply 1 more than before instead
 
 	materialMap["sky"] = Material();
-	materialMap["sky"].rasterizerState = rasterizerState;
+	materialMap["sky"].rasterizerState = wireframeState;
 	materialMap["sky"].depthState = skyDepthState;
 	materialMap["sky"].vShader = vShaderMap["skybox"];
 	materialMap["sky"].pShader = pShaderMap["skybox"];
@@ -97,7 +98,7 @@ bool ExampleGame::Init()
 	materialMap["sky"].samplers.push_back(samplerMap["default"]);
 	
 	materialMap["lit"] = Material();
-	materialMap["lit"].rasterizerState = rasterizerState;
+	materialMap["lit"].rasterizerState = wireframeState;
 	materialMap["lit"].depthState = standardDepthState;
 	materialMap["lit"].blendState = noBlend;
 	materialMap["lit"].vShader = vShaderMap["lit"];
@@ -106,7 +107,7 @@ bool ExampleGame::Init()
 
 	//Just for demoing different effects
 	materialMap["textured"] = Material();
-	materialMap["textured"].rasterizerState = rasterizerState;
+	materialMap["textured"].rasterizerState = wireframeState;
 	materialMap["textured"].depthState = standardDepthState;
 	materialMap["textured"].blendState = noBlend;
 	materialMap["textured"].vShader = vShaderMap["litTextured"];
@@ -133,7 +134,7 @@ bool ExampleGame::Init()
 	materialMap["ground"].textures.push_back(textureMap["blank"]);
 
 	materialMap["well"] = Material();
-	materialMap["well"].rasterizerState = rasterizerState;
+	materialMap["well"].rasterizerState = wireframeState;
 	materialMap["well"].depthState = standardDepthState;
 	materialMap["well"].blendState = noBlend;
 	materialMap["well"].vShader = vShaderMap["normalmapping"];
@@ -152,6 +153,9 @@ bool ExampleGame::Init()
 	meshMap["Barrel"] = new Mesh<VertexPosNormTexture>();
 	meshMap["Ground"] = new Mesh<VertexPosNormTexture>();
 	meshMap["Well"] = new Mesh<VertexPosTexNormTan>();
+
+	Geometry::CreateTriangle(&triangleMesh, device);
+	
 
 	ModelImporter::LoadFromFile("../Assets/Models/invertedcube.obj", (Mesh<VertexSky>*)meshMap["Skybox"], device);
 	ModelImporter::LoadFromFile("../Assets/Models/kirby.obj", (Mesh<VertexPosNormTexture>*)meshMap["Kirby"], device);

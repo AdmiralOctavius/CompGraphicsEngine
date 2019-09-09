@@ -225,6 +225,7 @@ bool BaseGame::InitD3D()
 
 	HR(dxgiFactory->CreateSwapChain(device, &swapChainDesc, &swapChain));
 
+	dxgiDevice->Release(); 
 	SafeRelease(dxgiDevice);
 	SafeRelease(dxgiAdapter);
 	SafeRelease(dxgiFactory);
