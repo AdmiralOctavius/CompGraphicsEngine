@@ -28,6 +28,8 @@ cbuffer SimpleCBuffer : register(b0)
 	float2 spriteTexPos;//Where in the texture/sprite sheet to pull from - top left corner
 	float2 spriteTexSize;//width and height of sprite to pull from texture/spritesheet
 	float spriteDepth;
+
+	float gameTime;
 }
 
 struct VPosColInput//Where vertex data gets stored on the GPU when we call deviceContext->VSSetVertexBuffer in ExampleGame::Draw

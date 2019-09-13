@@ -28,4 +28,7 @@ struct SimpleConstantBuffer
 	XMFLOAT2 spriteTexPos;
 	XMFLOAT2 spriteTexSize;
 	float spriteDepth;
+
+	//Pulled from given 9/13 code
+	float gameTime;
 };

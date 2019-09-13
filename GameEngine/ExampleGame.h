@@ -48,7 +48,16 @@ private:
 	//new stuff from class
 	Mesh<VertexPositionColor> triangleMesh;
 	GameObject triangle;
-	GameObject betterSquare;
+
+	Mesh<VertexPositionColor> pyramidMesh;
+	GameObject pyramid;
+	GameObject pyramid2;
+	GameObject pyramid3;
+	GameObject pyramid4;
+	
+	GameObject pyramid5;
+
+	//GameObject betterSquare;
 	//Render States and Objects
 	ID3D11RasterizerState* rasterizerState = nullptr;
 	ID3D11RasterizerState *wireFrameState = nullptr;
