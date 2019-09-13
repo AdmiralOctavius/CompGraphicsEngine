@@ -18,7 +18,7 @@ LRESULT CALLBACK GlobalProcessMessage(HWND handle, UINT msg, WPARAM wParam, LPAR
 
 //BaseGame Constructor
 BaseGame::BaseGame(HINSTANCE instance)
-	: gameInstance(instance),
+	: gameInstance(instance), //Member Initialization List
 	driverType(D3D_DRIVER_TYPE_HARDWARE),
 	windowWidth(800),
 	windowHeight(450),
@@ -52,6 +52,8 @@ BaseGame::BaseGame(HINSTANCE instance)
 		RECT R = { 0, 0, windowWidth, windowHeight };
 		AdjustWindowRect(&R, WS_OVERLAPPEDWINDOW, false);
 		int width = R.right - R.left;
+		//HWND Handle (pointer) to a Window 
+		//HINSTANCE is Handle (pointer) to a process
 		HWND consoleHandle = GetConsoleWindow();
 		HMENU hmenu = GetSystemMenu(consoleHandle, FALSE);
 		DeleteMenu(hmenu, SC_CLOSE, MF_BYCOMMAND);
@@ -162,6 +164,8 @@ bool BaseGame::InitD3D()
 	}; 
 	
 	//handle is a pointer to our program's process
+	//HRESULT = handle to a result
+	//HRESULTs return error messages if an error occurs
 	HRESULT hResult = D3D11CreateDevice(
 	0,
 	driverType,
@@ -173,6 +177,11 @@ bool BaseGame::InitD3D()
 	&device,
 	&featureLevel,
 	&deviceContext);
+
+	//Device - refers to the physical graphics card
+	//			Use it to draw stuff
+	//Device Context - refers to the settings currently applied to the GPU
+	//			Use it to change what you draw, how you draw, etc.
 
 	//HR - HRESULT - just stores error messages from directx functions
 	if(FAILED(hResult))
@@ -225,8 +234,8 @@ bool BaseGame::InitD3D()
 
 	HR(dxgiFactory->CreateSwapChain(device, &swapChainDesc, &swapChain));
 
-	dxgiDevice->Release(); 
-	SafeRelease(dxgiDevice);
+	//delete - deallocates memory that our program owns
+	SafeRelease(dxgiDevice);//'delete' managed code (managed by an api)
 	SafeRelease(dxgiAdapter);
 	SafeRelease(dxgiFactory);
 	
@@ -240,7 +249,7 @@ int BaseGame::Run()
 	timer.Reset();
 	
 	//Game Loop
-	while(msg.message != WM_QUIT)
+	while (msg.message != WM_QUIT)
 	{
 		#if defined (_DEBUG)
 			updateTimer.Start(timer.CurrTics());
@@ -248,6 +257,13 @@ int BaseGame::Run()
 
 		//GetMessage - Wait for an event to occur
 		//PeekMessage - checks if an event occured since the last peek message
+		//Any windows program listens for messages
+			//Messages are any event such as 
+				//Keyboard Input
+				//Mouse Input
+				//Moving The window
+				//Closing The Window
+				//Resizing the windowasdf
 		if(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
 		{ 
 			TranslateMessage( &msg );
@@ -289,6 +305,7 @@ int BaseGame::Run()
 
 				#if defined (_RELEASE)
 					//Limit to ~70FPS to reduce CPU usage.
+					//Delta Time = How long the last frame took to run
 					if (timer.DeltaTime() < targetDeltaTime)
 						Sleep((DWORD)(targetDeltaTime - timer.DeltaTime()));
 				#endif
@@ -391,7 +408,7 @@ LRESULT BaseGame::ProcessMessage(HWND handle, UINT msg, WPARAM wParam, LPARAM lP
 
 	switch (msg)
 	{
-	case WM_ACTIVATE:
+	case WM_ACTIVATE://If the window gets focus
 		if (LOWORD(wParam) == WA_INACTIVE)
 		{
 			paused = true;

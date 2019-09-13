@@ -36,6 +36,7 @@ private:
 	//Assets
 	SpriteFont *spriteFont = nullptr;
 	SpriteBatch *spriteBatch = nullptr;
+	//Hash Tables
 	unordered_map<string, ID3D11ShaderResourceView*> textureMap;
 	unordered_map<string, ID3D11SamplerState*> samplerMap;
 	unordered_map<string, ID3D11InputLayout*> inputLayoutMap;
@@ -43,12 +44,14 @@ private:
 	unordered_map<string, ID3D11PixelShader*> pShaderMap;
 	unordered_map<string, Material> materialMap;
 	unordered_map<string, BaseMesh*> meshMap;
+
+	//new stuff from class
 	Mesh<VertexPositionColor> triangleMesh;
 	GameObject triangle;
-
+	GameObject betterSquare;
 	//Render States and Objects
-	ID3D11RasterizerState *rasterizerState = nullptr;
-	ID3D11RasterizerState *wireframeState= nullptr;
+	ID3D11RasterizerState* rasterizerState = nullptr;
+	ID3D11RasterizerState *wireFrameState = nullptr;
 	ID3D11BlendState *standardBlend = nullptr, *noBlend = nullptr;
 	ID3D11DepthStencilState *standardDepthState = nullptr, *skyDepthState = nullptr;
 	SimpleConstantBuffer gameSimpleCBuffer;//constant buffer FOR Game

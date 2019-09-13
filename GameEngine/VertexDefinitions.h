@@ -16,6 +16,7 @@ struct VertexPositionColor
 	//But just use the sizeof() operator to figure it out for you!
 	static UINT stride;
 
+	//XM = DirectXMath 
 	XMFLOAT3 position;
 	XMFLOAT4 color;
 	

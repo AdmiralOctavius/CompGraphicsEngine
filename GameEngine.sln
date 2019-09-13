@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29201.188
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\GameEngine.vcxproj", "{515C3E6C-5E4A-4E40-BBAB-AB2EF55E6ECD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1F9B0756-CEF5-46C5-A72A-9029ABFE67E2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{751CFCF1-F1D3-41C6-B0DC-9E9645E62781}"
 	ProjectSection(SolutionItems) = preProject
-		notes.txt = notes.txt
+		Notes.txt = Notes.txt
 	EndProjectSection
 EndProject
 Global
@@ -25,6 +25,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {856DCFEE-AF78-429A-9376-54BE301A7352}
+		SolutionGuid = {5B6F475E-AF97-41C6-B354-5C15FE6D7F56}
 	EndGlobalSection
 EndGlobal

@@ -21,14 +21,21 @@ using namespace DirectX;
 BaseGame describes what any DirectX game would require, as opposed to Game which describes our particular game.
 Remember that BaseGame::Run() is the actual game loop and BaseGame::ProcessMessage is where all events like input, resizing, etc. goes
 */
+//Abstract Class
+//We can't create an instance of BaseGame
+//We can only inherit from BaseGame
 class BaseGame
 {
 public:
-	BaseGame(HINSTANCE instance);
-	virtual ~BaseGame();
+	BaseGame(HINSTANCE instance);//Constructor
+	virtual ~BaseGame();//Destructor
 	int Run();
+	//virtual 'enables' polymorphism, 
+	//we override virtual functions
+	//And we can call them polymorphically
 	virtual bool Init();
 	virtual void OnResize(); 
+	//Pure Virtual Functions (= 0) - having them makes BaseGame Abstract
 	virtual void GetInput(float dt) = 0;
 	virtual void Update(float dt) = 0;
 	virtual void Draw() = 0;

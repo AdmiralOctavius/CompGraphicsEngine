@@ -1,6 +1,8 @@
-#include <Windows.h>
+#include <Windows.h>//#preprocessor directives
 
 #include "ExampleGame.h"
+
+#define PI 3.14
 
 #pragma warning(push)
 #pragma warning(disable: 4100)//Suppress this warning that is generated because we aren't using the function of WinMain
@@ -12,8 +14,8 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE prevInstance, PSTR cmdLine, int
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);//This is just extra debugging for telling us if we have memory leaks (un-deleted pointers)
 	#endif
 		
-	ExampleGame game(instance);
-
+	ExampleGame game(instance);//Constructor
+	
 	if(!game.Init())
 		return 0;
 	

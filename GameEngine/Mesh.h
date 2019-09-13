@@ -17,6 +17,7 @@ public:
 	BoundingSphere boundingSphere;
 };
 
+//T is what type of Vertex this mesh has.
 template<class T>
 class Mesh : public BaseMesh //Mesh inherits from BaseMesh
 {
