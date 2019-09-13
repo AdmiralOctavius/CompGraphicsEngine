@@ -109,9 +109,10 @@ bool BaseGame::InitMainWindow()
 	wc.hInstance     = gameInstance;
 	wc.hIcon         = LoadIcon(0, IDI_APPLICATION);
 	wc.hCursor       = LoadCursor(0, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+	wc.hbrBackground = (HBRUSH)GetStockObject(BACKGROUND_BLUE);
 	wc.lpszMenuName  = 0;
 	wc.lpszClassName = L"WindowClass";
+	
 
 	if(!RegisterClass(&wc))
 	{
@@ -190,6 +191,8 @@ bool BaseGame::InitD3D()
 		return false;
 	}
 
+	printf("Graphics device acquired successfully.\n");
+
 	//This HR macro is a shortcut to declare an hresult and check for an error message.
 	HR(device->CheckMultisampleQualityLevels(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
@@ -238,7 +241,7 @@ bool BaseGame::InitD3D()
 	SafeRelease(dxgiDevice);//'delete' managed code (managed by an api)
 	SafeRelease(dxgiAdapter);
 	SafeRelease(dxgiFactory);
-	
+	printf("Window Initialized.\n");	
 	return true;
 }
 
@@ -430,11 +433,13 @@ LRESULT BaseGame::ProcessMessage(HWND handle, UINT msg, WPARAM wParam, LPARAM lP
 			switch (wParam)
 			{
 			case SIZE_MINIMIZED:
+				printf("Minimized Window\n");
 				paused = true;
 				minimized = true;
 				maximized = false;
 				return 0;
 			case SIZE_MAXIMIZED:
+				printf("Maximized Window\n");
 				paused = false;
 				minimized = false;
 				maximized = true;
