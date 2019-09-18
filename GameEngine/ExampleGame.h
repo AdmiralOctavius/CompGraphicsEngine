@@ -56,7 +56,8 @@ private:
 	GameObject pyramid4;
 	
 	GameObject pyramid5;
-
+	Mesh<VertexPositionColor> mundellSquare;
+	GameObject mundell1;
 	//GameObject betterSquare;
 	//Render States and Objects
 	ID3D11RasterizerState* rasterizerState = nullptr;

@@ -62,6 +62,7 @@ namespace Geometry
 		RenderManager::CreateIndexBuffer(indices,mesh->indexBuffer,device);
 	}
 
+	
 	template<class T>
 	static void CreatePyramid(Mesh<T>* mesh, ID3D11Device* device)
 	{
@@ -99,6 +100,29 @@ namespace Geometry
 		mesh->numVertices = 12;
 		RenderManager::CreateVertexBuffer(mesh->numVertices,
 			vertices, mesh->vertexBuffer, device);
+	}
+
+	template<class T>
+	static void CreateBetterSquareMundell(Mesh<T>* mesh, ID3D11Device* device)
+	{
+		VertexPositionColor vertices[4]
+		{
+			{XMFLOAT3(0, 0, 0),		XMFLOAT4(1, 0, 0, 1)},//RGBA
+			{XMFLOAT3(0, .5f, 0),	XMFLOAT4(0, 0, 1, 1)},
+			{XMFLOAT3(.5f, 0, 0),	XMFLOAT4(0, 1, 0, 1)},
+			{XMFLOAT3(.5f, .5f, .5f),	XMFLOAT4(1, 1, 0, 1)},
+		};
+
+		//An index buffer lets us reuse vertices instead of
+		//having duplicate vertices with the same position
+		UINT indices[6] = { 0, 1, 2, //triangle 1
+							1, 3, 2 };//triangle 2
+
+		mesh->numVertices = 4;
+		mesh->numIndices = 6;
+		RenderManager::CreateVertexBuffer(mesh->numVertices,
+			vertices, mesh->vertexBuffer, device);
+		RenderManager::CreateIndexBuffer(6, indices, mesh->indexBuffer, device);
 	}
 
 }
