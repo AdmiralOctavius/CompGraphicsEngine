@@ -7,9 +7,10 @@ VPosColToPixel main(VPosColInput input)
 	VPosColToPixel output;
 
 	//Part four of assignment
+	/* Commented out for sanity's sake
 	input.position.xy += .5f * sin(input.position.x) * sin(3.0f * gameTime);
 	input.position.z *= .6f + .4f * sin(2.0f * gameTime);
-
+	*/
 	//Transform to Screen Space
 	//Take 3D position, put it where the object is, then project it into 2D
 	output.position = mul(float4(input.position, 1), 

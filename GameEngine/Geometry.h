@@ -125,4 +125,77 @@ namespace Geometry
 		RenderManager::CreateIndexBuffer(6, indices, mesh->indexBuffer, device);
 	}
 
+	template<class T>
+	static void CreateHillsTest_1(Mesh<T>* mesh, ID3D11Device* device, int gridWidth, int gridDepth, int widthVertices, int depthVertices, bool randomHeight) {
+
+		vector<VertexPositionColor> vertices;
+		//VertexPositionColor vertices;
+		
+
+		//This should give us the amount of vertices we need
+		int vertexCount = widthVertices * depthVertices;
+		//This should be the amount of faces we need
+		int faceCount = (widthVertices - 1) * (depthVertices - 1) * 2; 
+
+		//More data for grid generation
+		float halfWidth = 0.5f * gridWidth;
+		float halfDepth = 0.5f * gridDepth;
+
+		//Cell spacing values
+		float dx = widthVertices / (depthVertices - 1);
+		float dz = depthVertices / (widthVertices - 1);
+
+		//Unsure what math this is for
+		float du = 1.0f / (depthVertices - 1);
+		float dv = 1.0f / (widthVertices - 1);
+
+		//Set the size of the vertices vector
+		vertices.resize(vertexCount);
+		//First loop along the width of the grid
+		for (int i = 0; i < widthVertices; i++) {
+
+			//Position of a vertex along the z axis?
+			float z = halfDepth - i * dz;
+
+			//Second loop along the depth
+			for (int j = 0; j < depthVertices; j++) {
+
+				//Position of our X value of the vertex
+				float x = -halfWidth + j * dx;
+
+				//sets the vertex position
+				vertices.at(i * gridWidth + j).position = XMFLOAT3(x, 0.0f, z);
+				//Sets color
+				vertices.at(i * gridWidth + j).color = XMFLOAT4(1, 1, 1, 1);
+			}
+		}
+
+		//mesh->numIndices = faceCount * 3;
+
+		mesh->numIndices = faceCount * 3;
+		vector <UINT> indices;
+		indices.resize(faceCount * 3);
+		//Mesh indices
+		int k = 0;
+		for (int i = 0; i < widthVertices - 1; i++) {
+			for (int j = 0; j < depthVertices - 1; j++) {
+				indices[k] = i * depthVertices + j;
+				indices[k+1] = i * depthVertices + j + 1;
+				indices[k+2] = (i + 1) * depthVertices + j;
+				indices[k+3] = (i + 1) * depthVertices + j;
+				indices[k+4] = i * depthVertices + j + 1;
+				indices[k+5] = (i + 1) * depthVertices + j +1;
+
+				k += 6;
+			}
+		}
+
+		mesh->numVertices = vertexCount;
+		mesh->numIndices = faceCount;
+		RenderManager::CreateVertexBuffer(vertices, mesh->vertexBuffer, device);
+		//RenderManager::CreateVertexBuffer()
+		RenderManager::CreateIndexBuffer(indices, mesh->indexBuffer, device);
+		//enderManager::CreateIndexBuffer()
+	}
+
 }

@@ -54,6 +54,9 @@ private:
 	GameObject pyramid2;
 	GameObject pyramid3;
 	GameObject pyramid4;
+
+	Mesh<VertexPositionColor> gridMesh;
+	GameObject gridTest1;
 	
 	GameObject pyramid5;
 	Mesh<VertexPositionColor> mundellSquare;
