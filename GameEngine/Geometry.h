@@ -128,6 +128,9 @@ namespace Geometry
 	template<class T>
 	static void CreateHillsTest_1(Mesh<T>* mesh, ID3D11Device* device, int gridWidth, int gridDepth, int widthVertices, int depthVertices, bool randomHeight) {
 
+		if (randomHeight) {
+			srand(time(0));
+		}
 		vector<VertexPositionColor> vertices;
 		//VertexPositionColor vertices;
 		
@@ -151,6 +154,8 @@ namespace Geometry
 
 		//Set the size of the vertices vector
 		vertices.resize(vertexCount);
+
+
 		//First loop along the width of the grid
 		for (int i = 0; i < widthVertices; i++) {
 
@@ -159,14 +164,29 @@ namespace Geometry
 
 			//Second loop along the depth
 			for (int j = 0; j < depthVertices; j++) {
-
+				float y;
 				//Position of our X value of the vertex
 				float x = -halfWidth + j * dx;
-
+				if (randomHeight) {
+					y = rand() % 1;
+				}
+				else {
+					y = 0.0f;
+				}
 				//sets the vertex position
-				vertices.at(i * gridWidth + j).position = XMFLOAT3(x, 0.0f, z);
+				vertices.at(i * gridWidth + j).position = XMFLOAT3(x, y, z);
+
 				//Sets color
-				vertices.at(i * gridWidth + j).color = XMFLOAT4(1, 1, 1, 1);
+				if (y > 0.75) {
+					vertices.at(i * gridWidth + j).color = XMFLOAT4(1, 1, 1, 1);
+				}
+				else if (y < 0.25) {
+					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.253f, 0.205f, 0.165f, 1);
+				}
+				else {
+					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.002f, 0.08f, 0.026f, 1);
+				}
+
 			}
 		}
 
@@ -192,9 +212,9 @@ namespace Geometry
 
 		mesh->numVertices = vertexCount;
 		mesh->numIndices = faceCount;
-		RenderManager::CreateVertexBuffer(vertices, mesh->vertexBuffer, device);
+		RenderManager::CreateVertexBuffer(vertices.size(), vertices.data(), mesh->vertexBuffer, device);
 		//RenderManager::CreateVertexBuffer()
-		RenderManager::CreateIndexBuffer(indices, mesh->indexBuffer, device);
+		RenderManager::CreateIndexBuffer(indices.size(), indices.data(), mesh->indexBuffer, device);
 		//enderManager::CreateIndexBuffer()
 	}
 

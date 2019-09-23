@@ -31,6 +31,12 @@ struct VertexPositionColor
 		position = v.Pos;
 		color = XMFLOAT4(1, 1, 1, 1);// Utility::RandomColor();
 	}
+
+	VertexPositionColor()
+	{
+		position = XMFLOAT3(0,0,0);
+		color = XMFLOAT4(1, 1, 1, 1);// Utility::RandomColor();
+	}
 };
 
 //Surface Normal - A vector representing the direction a face is pointing
