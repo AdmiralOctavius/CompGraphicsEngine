@@ -127,6 +127,11 @@ namespace Geometry
 
 	template<class T>
 	static void CreateHillsTest_1(Mesh<T>* mesh, ID3D11Device* device, int gridWidth, int gridDepth, int widthVertices, int depthVertices, bool randomHeight) {
+		
+		//gridWidth = float width
+		//gridDepth = float depth
+		//widthVertices = uint m
+		//depthVertices = unit n
 
 		if (randomHeight) {
 			srand(time(0));
@@ -145,8 +150,8 @@ namespace Geometry
 		float halfDepth = 0.5f * gridDepth;
 
 		//Cell spacing values
-		float dx = widthVertices / (depthVertices - 1);
-		float dz = depthVertices / (widthVertices - 1);
+		float dx = gridWidth / (depthVertices - 1);
+		float dz = gridDepth / (widthVertices - 1);
 
 		//Unsure what math this is for
 		float du = 1.0f / (depthVertices - 1);
@@ -168,23 +173,30 @@ namespace Geometry
 				//Position of our X value of the vertex
 				float x = -halfWidth + j * dx;
 				if (randomHeight) {
-					y = rand() % 1;
+					//y = rand() % 10;
+					//y = y / 10;
+
+					y = 0.25f * (z * sinf(0.05f * x) + x * cosf(0.05f * z));
+					//cout << "Random height for vertex is: " << y << "\n";
+					//printf("Random height for vertex is: %d \n",y);
 				}
 				else {
 					y = 0.0f;
 				}
 				//sets the vertex position
-				vertices.at(i * gridWidth + j).position = XMFLOAT3(x, y, z);
+				vertices.at(i * depthVertices + j).position = XMFLOAT3(x, y, z);
 
 				//Sets color
-				if (y > 0.75) {
-					vertices.at(i * gridWidth + j).color = XMFLOAT4(1, 1, 1, 1);
+				if (y > 100) {
+					vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 1, 1, 1);
+					//cout << "Got here";
 				}
-				else if (y < 0.25) {
-					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.253f, 0.205f, 0.165f, 1);
+				else if (y < -10) {
+					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.4f, 0.2f, 0, 1);
+					//cout << "Are all vertex brown";
 				}
 				else {
-					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.002f, 0.08f, 0.026f, 1);
+					vertices.at(i * gridWidth + j).color = XMFLOAT4(0, 0.607f, 0.2f, 1);
 				}
 
 			}
