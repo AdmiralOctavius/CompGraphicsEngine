@@ -197,9 +197,18 @@ namespace Geometry
 					vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 1, 1, 1);
 					//cout << "Got here";
 				}
+				else if (y > 5) {
+					
+					vertices.at(i * depthVertices + j).color = XMFLOAT4(0.38f, 1, 0.56f, 1);
+					
+				}
 				else if (y < -10) {
 					vertices.at(i * depthVertices + j).color = XMFLOAT4(0.4f, 0.2f, 0, 1);
 					//cout << "Are all vertex brown";
+				}
+				else if (y < -5) {
+					vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 0.74f, 0.38f, 1);
+
 				}
 				else {
 					/*if (i * depthVertices + j == 10) {
@@ -216,6 +225,10 @@ namespace Geometry
 		}
 
 		//mesh->numIndices = faceCount * 3;
+		////This should give us the amount of vertices we need
+		//int vertexCount = widthVertices * depthVertices;
+		//This should be the amount of faces we need
+		//int faceCount = (widthVertices - 1) * (depthVertices - 1) * 2;
 
 		mesh->numIndices = faceCount * 3;
 		vector <UINT> indices;
@@ -236,7 +249,7 @@ namespace Geometry
 		}
 
 		mesh->numVertices = vertexCount;
-		mesh->numIndices = faceCount;
+		mesh->numIndices = faceCount * 3;
 		RenderManager::CreateVertexBuffer(vertices.size(), vertices.data(), mesh->vertexBuffer, device);
 		//RenderManager::CreateVertexBuffer()
 		RenderManager::CreateIndexBuffer(indices.size(), indices.data(), mesh->indexBuffer, device);
