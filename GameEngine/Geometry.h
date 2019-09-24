@@ -126,7 +126,7 @@ namespace Geometry
 	}
 
 	template<class T>
-	static void CreateHillsTest_1(Mesh<T>* mesh, ID3D11Device* device, int gridWidth, int gridDepth, int widthVertices, int depthVertices, bool randomHeight) {
+	static void CreateHillsTest_1(Mesh<T>* mesh, ID3D11Device* device, float gridWidth, float gridDepth, int widthVertices, int depthVertices, bool randomHeight) {
 		
 		//gridWidth = float width
 		//gridDepth = float depth
@@ -154,35 +154,38 @@ namespace Geometry
 		float dz = gridDepth / (widthVertices - 1);
 
 		//Unsure what math this is for
-		float du = 1.0f / (depthVertices - 1);
-		float dv = 1.0f / (widthVertices - 1);
+		//float du = 1.0f / (depthVertices - 1);
+		//float dv = 1.0f / (widthVertices - 1);
 
 		//Set the size of the vertices vector
 		vertices.resize(vertexCount);
 
 
 		//First loop along the width of the grid
-		for (int i = 0; i < widthVertices; i++) {
+		for (int i = 0; i < widthVertices; ++i) {
 
 			//Position of a vertex along the z axis?
-			float z = halfDepth - i * dz;
+			float z = halfDepth - i*dz;
 
 			//Second loop along the depth
-			for (int j = 0; j < depthVertices; j++) {
-				float y;
+			for (int j = 0; j < depthVertices; ++j) {
+
 				//Position of our X value of the vertex
 				float x = -halfWidth + j * dx;
+
+				float y;
 				if (randomHeight) {
 					//y = rand() % 10;
 					//y = y / 10;
 
-					y = 0.25f * (z * sinf(0.05f * x) + x * cosf(0.05f * z));
+					y = 0.09f * (z * sinf(0.05f * x) + x * cosf(0.05f * z));
 					//cout << "Random height for vertex is: " << y << "\n";
 					//printf("Random height for vertex is: %d \n",y);
 				}
 				else {
 					y = 0.0f;
 				}
+
 				//sets the vertex position
 				vertices.at(i * depthVertices + j).position = XMFLOAT3(x, y, z);
 
@@ -192,11 +195,18 @@ namespace Geometry
 					//cout << "Got here";
 				}
 				else if (y < -10) {
-					vertices.at(i * gridWidth + j).color = XMFLOAT4(0.4f, 0.2f, 0, 1);
+					vertices.at(i * depthVertices + j).color = XMFLOAT4(0.4f, 0.2f, 0, 1);
 					//cout << "Are all vertex brown";
 				}
 				else {
-					vertices.at(i * gridWidth + j).color = XMFLOAT4(0, 0.607f, 0.2f, 1);
+					if (i * depthVertices + j == 10) {
+						vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 0, 0, 1);
+						cout << "At Point 10";
+					}
+					else {
+						vertices.at(i * depthVertices + j).color = XMFLOAT4(0, 0.607f, 0.2f, 1);
+
+					}
 				}
 
 			}
@@ -209,8 +219,8 @@ namespace Geometry
 		indices.resize(faceCount * 3);
 		//Mesh indices
 		int k = 0;
-		for (int i = 0; i < widthVertices - 1; i++) {
-			for (int j = 0; j < depthVertices - 1; j++) {
+		for (int i = 0; i < widthVertices - 1; ++i) {
+			for (int j = 0; j < depthVertices - 1; ++j) {
 				indices[k] = i * depthVertices + j;
 				indices[k+1] = i * depthVertices + j + 1;
 				indices[k+2] = (i + 1) * depthVertices + j;
