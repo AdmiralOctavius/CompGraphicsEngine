@@ -160,6 +160,9 @@ namespace Geometry
 		//Set the size of the vertices vector
 		vertices.resize(vertexCount);
 
+		float randSeed;
+		randSeed = rand() % 100;
+		randSeed = randSeed / 1000;
 
 		//First loop along the width of the grid
 		for (int i = 0; i < widthVertices; ++i) {
@@ -173,12 +176,12 @@ namespace Geometry
 				//Position of our X value of the vertex
 				float x = -halfWidth + j * dx;
 
+				
 				float y;
 				if (randomHeight) {
-					//y = rand() % 10;
-					//y = y / 10;
+					
 
-					y = 0.09f * (z * sinf(0.05f * x) + x * cosf(0.05f * z));
+					y = randSeed * (z * sinf(0.05f * x) + x * cosf(0.05f * z));
 					//cout << "Random height for vertex is: " << y << "\n";
 					//printf("Random height for vertex is: %d \n",y);
 				}
@@ -190,7 +193,7 @@ namespace Geometry
 				vertices.at(i * depthVertices + j).position = XMFLOAT3(x, y, z);
 
 				//Sets color
-				if (y > 100) {
+				if (y > 10) {
 					vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 1, 1, 1);
 					//cout << "Got here";
 				}
@@ -199,14 +202,14 @@ namespace Geometry
 					//cout << "Are all vertex brown";
 				}
 				else {
-					if (i * depthVertices + j == 10) {
+					/*if (i * depthVertices + j == 10) {
 						vertices.at(i * depthVertices + j).color = XMFLOAT4(1, 0, 0, 1);
 						cout << "At Point 10";
-					}
-					else {
+					}*/
+					//else {
 						vertices.at(i * depthVertices + j).color = XMFLOAT4(0, 0.607f, 0.2f, 1);
 
-					}
+					//}
 				}
 
 			}
