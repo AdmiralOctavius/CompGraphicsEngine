@@ -1,0 +1,255 @@
+﻿//WINAPI (Purple Statements) = Macros
+//#define PI 3.14 just replaces the text PI (which will turn purple) with 3.14
+//HINSTANCE = Pointer to a Handle
+//Handle = is a process on our computer
+
+Application Programmer Interface
+API
+DirectX is an API
+Direct<InsertLibraryHere>
+DirectSound
+DirectCollision
+DirectMath
+DirectInput
+Direct3D - this is the rendering API
+
+All rendering now is done with polygons
+Polygons (3D Model) are composed of Vertices and Edges
+Simplest Polygon - Triangles
+Everything that gets rendered is rendered as triangles
+Vertices Are just objects we send to the GPU
+USUALLY they contain a point in space, 
+	They also contain things like Color, TexturePosition, Normals, 
+
+(Before Polygons  - Very original rendering used Bit Blits - 
+	copying pixels directly into memory so they appear on screen
+	Everything was just squares (like original pong))
+
+		//dt = seconds/frame
+	//speed = units/second
+	//units/frame
+	
+	/*Color
+	Subtractive - All colors together = black - Paint (real life color)
+	
+	Additive - Digital Colors - All colors together = White
+		White = (1, 1, 1, 1), Black = (0, 0, 0, 1);
+		Color = RGBA = Red, Green, Blue, Alpha
+		Blue = (0, 0, 1, 1);
+		Light Blue = (.5, .5, 1, 1);
+		(0, 1, 1, 1) = Cyan
+
+	Coordinate Spaces
+		Origin, Axis
+		World Space = X, Y, Z, and Global (0, 0, 0) is the origin
+		Object Space = X, Y, Z, and the origin is the object's position
+
+	Color spaces
+		Are what range of colors we can create
+		RGB - normal range 0 is black, 1 is white, (1, 0, 0) is red, etc.
+		sRGB - standard RGB - standardized across all devices
+		CMYK - Printers (subtractive) 
+			- Cyan, Magenta, Yellow, Black
+
+		Blue * Red
+		(0, 0, 1, 1) 
+	  * (1, 0, 0, 1)
+	  _______________
+	    (0, 0, 0, 1) = Black
+
+		Blue + Red
+		(0, 0, 1, 1) 
+	  * (1, 0, 0, 1)
+	  _______________
+	    (1, 0, 1, 1) = Purple
+
+	Red = (1, 0, 0, 1) (as floats) OR (255, 0, 0, 255) (as ints)
+	(128, 128, 0, 255) = Yellow
+
+	Channels are the individual components of a color
+	Red Channel, Blue Channel, Green Channel, Alpha Channel
+
+	Hue	= What color is it? Where on the color wheel?
+	Saturation = How much color? 0 = grayscale, 1 = vibrant color
+	Value (Luminosity) = Brightness, 1 = white, 0 = black
+
+	Direct X Math
+	DirectX takes advantage of a hardware technique called
+	SIMD = Single Instruction, Multiple Data
+	Normally code is executed 1 thread at a time.
+	Context Switching = How a cpu switches from one 
+		process to another over and over very quickly,
+		in order to give the appearance that multiple
+		programs are running at once.
+
+		(0, 0, 1, 1) 
+	  * (1, 0, 0, 1)
+	  Sequentially, it would do 0 * 1, then 0 * 0, then 1 * 0, then 1 * 1, then return result
+
+	  SIMD allows the computer to process multiple pieces of data simultaneously
+	  So instead of 1 by 1, it does
+	  0 * 1
+	  0 * 0
+	  1 * 0
+	  1 * 1
+	  At the same time instead of 1 after the other.
+
+	  This is why DirectXMath looks the way it does and is annoying to use
+		so that its up to 4x faster than not using it
+
+	When you store data persistently, use XMFLOATX
+	When you do operations on data, use XMVECTOR or XMMATRIX
+	To convert use XMLoadFloatX and XMStoreFloat
+
+	Scalar = 1 value (what you are used to)
+		Ex. 2, x, speed.x, gameTime, deltaTime
+	Scalar Operations: +, -, /, *, %, 
+		Round, Ceil, Floor,
+		Round(4.6)	= 5 
+		Ceil(4.6)	= 5 = Round but always up
+		Floor(4.6)	= 4 = Truncate(4.6) = Round but always down
+
+		Distributive
+			a(b + c) = ab + ac
+
+		Commutative
+			a + b = b + a
+
+	Vector (more than 1 value in a row)
+		Vector2 or Vector3 or Vector4
+		Origin (0, 0, 0)
+		Position (5, 0, 5)
+		Velocity (2, 2, 0)
+		Acceleration (0, -9.81, 0)
+
+		(5, 0, 0) + (-5, 0, 0)	= (x1 + x2, y1 + y2, z1 + z2)
+								= (0, 0, 0)
+
+		(2, 2, 0) * 5 =	(x1 * 5, y1 * 5, z1 * 5) = (10, 10, 0)
+
+		Magnitude of a vector
+		(2, 2, 0) = (use pythagorean theorem)
+		a^2 + b^2 + z^2 = c^2
+		
+		Distance between 2D Points:
+		(2, 1), (4, 5)
+		= sqrt((y2 - y1)^2 + (x2 - x1)^2)
+		= find the hypoteneuse of the right triangle between the two points
+
+		Distance between 3D Points:
+		(2, 1, 5), (4, 5, 8)
+		= sqrt((y2 - y1)^2 + (x2 - x1)^2 + (z2 - z1)^2)
+
+		Normalizing = Returns a VECTOR that is the same direction
+			as the input vector, but has a magnitude of 1.
+			aka gives the direction a vector, without the length
+		normalize(0, -9.81, 0) =  (0, -1, 0)
+		normalize(0, -934.81, 0) =  (0, -1, 0)
+		normalize(0, -2983.81, 0) =  (0, -1, 0)
+		normalize(2, 2, 0) = (.707, .707, 0)
+				(its magnitude or hypoteneuse length is 1)
+
+		Cross Product (returns vector)
+		 a x b = results in a vector perpendicular to a & b
+		 i.e. Cross(forward, up) = right vector
+
+		Dot Product (returns scalar)
+		 a • b = ||a||*||b||*cos(Θ)
+		 If a & b are normalized = 1 * 1 * cos(Θ) = cos(Θ)
+		 So the angle Θ between two vectors is just Acos(a•b)
+		 
+		 ||a|| = magnitude (or length) of a vector
+		 |a| = absolute value of a scalar a
+		 
+		 = a ratio of the angle between two vectors
+		 if a • b = 1,	then a & b are parallel, and face the same direction
+		 if a • b = -1, then a & b are parallel, and face opposite directions
+		 if a • b = 0,	then a & b are perpendicular
+		 
+		 Used for 
+		 Lighting (how much is a light aimed at a surface to light it up)
+		 Determine if 1 character is facing towards another character or facing away
+
+	Matrix
+		Rows and Columns (table) of numbers
+		Row Column order
+
+		Identity Matrix
+		[1, 0, 0, 0] 4x4 matrix (rows x columns)
+		[0, 1, 0, 0]
+		[0, 0, 1, 0]
+		[0, 0, 0, 1]
+
+		Matrix A
+		[1, 2]
+		[3, 4]
+
+		Transpose(A) 
+		Transposing a matrix means switching its rows and columns
+		[1, 3]
+		[2, 4]
+
+		   A        B
+		[1, 2]   [4,  6]   [A11*B11+A12*B21  B]   [1*4+2*-3, 1*6+2*2]   
+		[3, 4] * [-3, 2] = [C				 D] = [3*4+4*-3, 3*6+4*2]
+
+		[1*4+2*-3, 1*6+2*2]	  [-2, 10]
+		[3*4+4*-3, 3*6+4*2] = [ 0, 26]
+
+		Matrix math is NOT COMMUTATIVE
+
+		[1, 0, 0|3x3 matrix
+		[0, 1, 0|
+		[0, 0, 1|
+
+		[1, 2, 3] 1x3 matrix (like a vector)
+
+		[1, 2, 3] 2x3 matrix
+		[4, 5, 6]
+
+		I * A = A
+		I * B = B
+		Like the number 1 but for matrices
+		So it represents a transform that has no rotation/scale/translation
+
+	*/
+
+	XMFLOAT2 position2D = { 400, 300 };
+	XMFLOAT3 position = { 0, 0, 0 };//similar to Vector3 in Unity/Unreal
+	XMFLOAT4 color = { 1, 0, 1, 1 };//Purple
+
+	XMFLOAT3 velocity = { 5, 5, 0 };
+	XMVECTOR velocityVec = XMLoadFloat3(&velocity);
+	XMVECTOR normalizedVelocity = XMVector3Normalize(velocityVec);
+	XMStoreFloat3(&velocity, normalizedVelocity);
+	cout << Utility::VectorToString(velocityVec) << endl;
+	cout << Utility::VectorToString(normalizedVelocity) << endl;
+
+	XMVECTOR posVector = XMVectorSet(0, 0, 0, 1);
+	XMMATRIX transformMatrix = XMMatrixIdentity();
+	cout << endl << Utility::MatrixToString(transformMatrix) << endl;
+
+	transformMatrix = XMMatrixTranslation(5, 10, 0);
+	cout << endl << Utility::MatrixToString(transformMatrix) << endl;
+
+	//Scaling = make things bigger (or smaller)
+	//Uniform Scale - scaling the same amount on all 3 axiis
+	//non-uniform scaling - scaling 1 axis differently from another
+	transformMatrix = XMMatrixScaling(2, 2, 2);
+	cout << endl << Utility::MatrixToString(transformMatrix) << endl;
+
+	transformMatrix = XMMatrixRotationY(45);
+	transformMatrix = XMMatrixRotationY(XMConvertToRadians(45));
+	cout << endl << Utility::MatrixToString(transformMatrix) << endl;
+
+	//this one applies any matrix to a single vector.
+	//XMVector3Transform()
+
+TEXTURES
+textures are Arrays of texels
+when zoomed in or out, texels != pixels
+textures can be 2D or 3D arrays (usually 2D)
+The point of textures is to get per-pixel data
+Textures don't always represent color
+	You can have: Diffuse Color Maps, Specualrity Maps,
+		Emissivity Map (glowing), normal maps, depth maps
