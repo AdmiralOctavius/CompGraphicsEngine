@@ -1,0 +1,5 @@
+You're awesome :>
+
+Most of the code is in Gameobject.h or in the init function for Examplegame.cpp
+
+Izzy

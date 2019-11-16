@@ -1,0 +1,26 @@
+//WINAPI (Purple Statements) = Macros
+//#define PI 3.14 just replaces the text PI (which will turn purple) with 3.14
+//HINSTANCE = Pointer to a Handle
+//Handle = is a process on our computer
+
+Application Programmer Interface
+API
+DirectX is an API
+Direct<InsertLibraryHere>
+DirectSound
+DirectCollision
+DirectMath
+DirectInput
+Direct3D - this is the rendering API
+
+All rendering now is done with polygons
+Polygons (3D Model) are composed of Vertices and Edges
+Simplest Polygon - Triangles
+Everything that gets rendered is rendered as triangles
+Vertices Are just objects we send to the GPU
+USUALLY they contain a point in space, 
+	They also contain things like Color, TexturePosition, Normals, 
+
+(Before Polygons  - Very original rendering used Bit Blits - 
+	copying pixels directly into memory so they appear on screen
+	Everything was just squares (like original pong))
